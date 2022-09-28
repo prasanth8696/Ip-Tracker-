@@ -3,8 +3,7 @@ import time
 import requests
 from colorama import init
 import style
-from helper import ip_checker
-from config import *
+from helper import ip_checker,ip_tracker,fetchApi,clr
 init(autoreset=True)
 #clear the terminal
 
@@ -24,7 +23,7 @@ slp()
 print(style.pink + '2 -> Others IPAddress')
 slp()
 choice = int(input('Enter '))
-clear()
+clr()
 #1 My IPAddress...
 if choice == 1 :
    slp()
@@ -35,15 +34,11 @@ if choice == 1 :
    if ch < 1 or ch > 2 :
     raise ValueError(style.red + 'Invalid Input...')
    ip_val = '' if ch == 1 else '64'
-   try :
-      response = requests.get(f'https://api{ip_val}.ipify.org?format=json',timeout=10).json()
-      print(response['ip'])
-   except requests.ConnectionError :
-      print(style.red + style.bold + 'Check Your Internet Connection...')
-   except requests.ConnectionTimeout :
-      print( style.red + style.bold + 'Server Down Try Again Later...')
-   except Exception :
-     print(style.red + 'Something Went Wrong...')
+  #Fetch Api for io address
+   url = f'https://api{ip_val}.ipify.org?format=json'
+   response = fetchApi(url)
+   ip = response['ip']
+   ip_tracker(ip)
 #2 Others IPAddress
 
 elif choice == 2 :
@@ -60,14 +55,14 @@ elif choice == 2 :
   if ch == 1 :
     if res != 'Ipv4' :
        raise ValueError(style.red + f'You IP Address is { style.bold + res}')
-    print(res)
+    ip_tracker(ip)
   elif ch == 2 :
     if res != 'Ipv6' :
        raise ValueError(style.red + f'You IP Address is {style.bold + res}')
-    print(res)
+    ip_tracker(ip)
   else :
        raise ValueError(style.red + 'Invalid Input...')
 
 
 else :
-  print('Invalid Input...')
+  print(style.red + 'Invalid Input...')
