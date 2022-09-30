@@ -3,7 +3,7 @@ import time
 import requests
 from colorama import init
 import style
-from helper import ip_checker,ip_tracker,fetchApi,clr
+from helper import ip_checker,ip_tracker,fetchApi
 init(autoreset=True)
 #clear the terminal
 
@@ -23,7 +23,7 @@ slp()
 print(style.pink + '2 -> Others IPAddress')
 slp()
 choice = int(input('Enter '))
-clr()
+clear()
 #1 My IPAddress...
 if choice == 1 :
    slp()

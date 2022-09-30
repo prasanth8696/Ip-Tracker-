@@ -6,16 +6,10 @@ from pprint import pprint
 from colorama import init
 init(autoreset=True)
 
-def clr() :
-  val = 'cls' if os.name == 'nt' else 'clear'
-  os.system(val)
-  print(style.yellow + 'IPTracker app...')
-  print('                  Developed by' + style.sky_blue + ' SHAN')
-  print()
-  print()
+val = 'cls' if os.name == 'nt' else 'clear'
+clear = lambda : os.system(val)
 
-
-
+colon = style.sky_blue + ':'
 #check ip is valid or not
 def ip_checker(ip): 
    try :
@@ -27,7 +21,7 @@ def ip_checker(ip):
 #track ip
 def ip_tracker(ip) :
     url = f'https://ipapi.co/{ip}/json/'
-    response = fetchApi(url)
+    response = fetchApi(url) 
     responseShow(response)
 #    pprint(response)
 
@@ -39,15 +33,26 @@ def fetchApi(url):
       return response
    except requests.ConnectionError :
       print(style.red + style.bold + 'Check Your Internet Connection...')
+      exit()
    except requests.ConnectTimeout :
       print( style.red + style.bold + 'Server Down Try Again Later...')
+      exit()
    except Exception :
       print(style.red + 'Something Went Wrong...')
+      exit()
 
 
 
 def responseShow(response):
-   clr()
+   try :
+     if response['error'] and response['reserved'] :
+       print(style.sky_blue + 'This is your local Ip address(reserve Ip)')
+       exit()
+   except KeyError :
+     pass
+
+   clear()
+   print()
    print(style.blue + '*-----------------------------------------------*')
    print()
    #ip information

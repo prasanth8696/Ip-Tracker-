@@ -1,4 +1,6 @@
 #style file
+# if feel its hard use termcolor or colorama
+
 bold = '\33[1m'
 
 red = '\33[91m'
